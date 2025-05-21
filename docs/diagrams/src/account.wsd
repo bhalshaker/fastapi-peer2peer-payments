@@ -1,0 +1,13 @@
+@startuml AccountDiagram
+
+entity AccountModel{
+    *account_id : UUID <<PK>>
+    --
+    *user_id : UUID <<FK>>
+    balance : DECIMAL(10,3)
+    currency : VARCHAR(3)
+    status: ENUM('active', 'inactive', 'closed','blocked')
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+@enduml
