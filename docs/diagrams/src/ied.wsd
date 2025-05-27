@@ -38,6 +38,6 @@ entity TransactionModel{
 }
 
 UserModel ||--|| AccountModel : "1..1"
-AccountModel ||--o{ TransactionModel : "1..*"
+AccountModel ||--o TransactionModel : "1..*"
 
 @enduml
