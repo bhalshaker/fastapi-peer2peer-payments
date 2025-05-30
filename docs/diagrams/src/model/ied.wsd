@@ -44,7 +44,19 @@ entity TransactionModel{
     updated_at : TIMESTAMP
 }
 
-UserModel ||--|| AccountModel : 1..1
-AccountModel ||--o{ TransactionModel : 1..*
-
+UserModel ||--|| AccountModel : Owns
+AccountModel ||--o{ TransactionModel : Sends
+AccountModel ||--o{ TransactionModel : Recieves
+note right of UserModel
+    UserModel represents the user in the system.
+    It contains personal information and account status.
+end note
+note right of AccountModel
+    AccountModel represents the user's account.
+    It contains balance, currency, and account status.
+end note
+note right of TransactionModel
+    TransactionModel represents the transactions between accounts.
+    It contains details about the sender, receiver, amount, and status.
+end note
 @enduml

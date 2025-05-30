@@ -11,7 +11,7 @@ note right: Start
 :Run Authorization Token Validation Process;
 if (Authorization is successful?) then (yes)
     :Extract user_id from JWT token;
-    :Fetch user transactions from database using user_id;
+    :Fetch current user transactions from database using user_id;
 
     if (User has transactions?) then (yes)
         :Return 200 OK with user transactions history;
