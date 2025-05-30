@@ -1,0 +1,36 @@
+@startuml Authorizatioin Token Validation Process
+skinparam handwritten true
+skinparam titleBorder 1
+skinparam titleBorderColor black
+title **<u>Authorization Token Validation Process</u>**
+
+start
+note right: Start
+note left
+    Authorization Header:
+    Bearer <JWT Token>
+end note
+
+:Extract JWT token from Authorization header;
+:Verify JWT token;
+if (Token is valid?) then (yes)
+    :Extract user_id from JWT token;
+    :Fetch user details from database using user_id;
+    
+    if (User exists?) then (yes)
+        :User is valid and authenticated;
+        stop
+        note left: "End"
+    else (no)
+        :Return 404 Not Found;
+        note right: {"detail": "User not found"}
+        stop
+        note left: "End"
+    endif
+else (no)
+    :Return 401 Unauthorized;
+    note left: {"detail": "Invalid or expired token"}
+    stop
+    note left: "End"
+endif
+@enduml

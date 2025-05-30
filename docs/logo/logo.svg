@@ -1,0 +1,21 @@
+<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Left user -->
+  <circle cx="54" cy="90" r="22" fill="#6EDC82"/>
+  <!-- Right user -->
+  <circle cx="126" cy="90" r="22" fill="#6EDC82"/>
+  <!-- Central coin (80% of previous size: 19*0.8=15.2) -->
+  <circle cx="90" cy="90" r="15.2" fill="#ffffff" stroke="#B39230" stroke-width="3"/>
+  <text x="90" y="96" font-size="28" font-family="Arial, Helvetica, sans-serif" font-weight="bold" fill="#B39230" text-anchor="middle">🏦</text>
+  <!-- Symmetric arrows above and below -->
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto" markerUnits="strokeWidth">
+      <polygon points="0 0, 8 4, 0 8" fill="#d3a93b"/>
+    </marker>
+  </defs>
+  <!-- Top arrow: left to right -->
+  <path d="M60,68 C90,55 90,55 120,68" stroke="#007cc7" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  <!-- Bottom arrow: right to left -->
+  <path d="M120,112 C90,125 90,125 60,112" stroke="#c70900" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+  <!-- System name -->
+  <text x="90" y="172" font-size="17" font-family="Arial, Helvetica, sans-serif" font-weight="bold" fill="#2D9C4B" text-anchor="middle">P2P Payment</text>
+</svg>

@@ -1,0 +1,50 @@
+@startuml InformationEntityDiagram
+skinparam handwritten true
+skinparam titleBorder 1
+skinparam titleBorderColor black
+title **<u>Information Entity Diagram for peer to peer payments</u>**
+
+entity UserModel{
+    *user_id : UUID <<PK>>
+    --
+    *user_name : VARCHAR(50)
+    *email : VARCHAR(50)
+    *password : VARCHAR(255)
+    *first_name : VARCHAR(50)
+    middle_name : VARCHAR(50)
+    *last_name : VARCHAR(50)
+    is_admin : BOOLEAN = False
+    user_status: ENUM('active', 'suspended', 'closed')
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity AccountModel{
+    *account_id : UUID <<PK>>
+    --
+    *user_id : UUID <<FK>>
+    balance : DECIMAL(10,3)
+    currency : VARCHAR(3) = 'BHD'
+    account_status: ENUM('active', 'closed','blocked')
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+entity TransactionModel{
+    *transaction_id : UUID <<PK>>
+    --
+    *sender_account_id : UUID <<FK>>
+    *receiver_account_id : UUID <<FK>>
+    *amount : DECIMAL(10,3)
+    *from_currency : VARCHAR(3)
+    *to_currency : VARCHAR(3)
+    *exchange_rate : DECIMAL(10,6)
+    transaction_status: ENUM('pending', 'completed', 'failed')
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+UserModel ||--|| AccountModel : 1..1
+AccountModel ||--o{ TransactionModel : 1..*
+
+@enduml
