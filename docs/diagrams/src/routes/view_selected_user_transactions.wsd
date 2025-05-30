@@ -1,0 +1,49 @@
+@startuml Admin Gets Selected User Transactions History
+skinparam handwritten true
+skinparam titleBorder 1
+skinparam titleBorderColor black
+title **<u>Admin Gets Selected User Transactions History</u>**
+
+start
+note right: Start
+:Receive GET request to /transactions/{user_id} with Authorization header;
+
+:Run Authorization Token Validation Process;
+:Validate request body for required fields;
+if (Authorizationn is successful and authenticated user is an admin?) then (yes)
+    :Extract user_id from request path;
+    :Fetch user transactions from database using user_id;
+
+    if (User is found or User has transactions?) then (yes)
+        :Return 200 OK with user transactions history;
+        note right
+            JSON Body:
+            [
+                {
+                    "transaction_id": "UUID",
+                    "sender_account_id": "UUID",
+                    "receiver_account_id": "UUID",
+                    "amount": "0.000",
+                    "from_currency": "BHD",
+                    "to_currency": "USD",
+                    "exchange_rate": "0.000000",
+                    "status": "completed"
+                },
+                ...
+            ]
+        end note
+        stop
+        note left: End
+    else (no)
+        :Return 404 Not Found;
+        note right: {"detail": "No transactions found for this user or user not found"}
+        stop
+        note left: End
+    endif
+else (no)
+    :Return 401 Unauthorized;
+    note left: {"detail": "Invalid or expired token or insufficient permissions"}
+    stop
+    note left: End
+endif
+@enduml

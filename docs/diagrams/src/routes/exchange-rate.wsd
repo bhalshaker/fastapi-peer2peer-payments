@@ -1,0 +1,48 @@
+@startuml Get exchange rate
+skinparam handwritten true
+skinparam titleBorder 1
+skinparam titleBorderColor black
+title **<u>Get exchange rate</u>**
+
+start
+note right: Start
+:Receive GET request to /exchange-rate?from=CURRENCY&to=CURRENCY with Authorization header;
+
+if (Query parameters are valid?) then (yes)
+    :Run Authorization Token Validation Process;
+    if (Authorization is successful?) then (yes)
+        :Extract from_currency and to_currency from query parameters;
+        :Fetch exchange rate from an external api using from_currency and to_currency and add 5% processig fees;
+
+        if (Exchange rate exists?) then (yes)
+            :Return 200 OK with exchange rate;
+            note right
+                JSON Body:
+                {
+                    "from_currency": "BHD",
+                    "to_currency": "USD",
+                    "exchange_rate": "0.000000"
+                }
+            end note
+            stop
+            note left: End
+        else (no)
+            :Return 404 Not Found;
+            note right: {"detail": "Exchange rate not found"}
+            stop
+            note left: End
+        endif
+    else (no)
+        :Return 401 Unauthorized;
+        note left: {"detail": "Invalid or expired token"}
+        stop
+        note left: End
+    endif
+else (no)
+    :Return 400 Bad Request;
+    note right: {"detail": "Invalid query parameters"}
+    stop
+    note left: End
+endif
+
+@enduml

@@ -1,0 +1,51 @@
+@startuml Login Process
+skinparam handwritten true
+skinparam titleBorder 1
+skinparam titleBorderColor black
+title **<u>Login Process</u>**
+
+start
+note right: Start
+:Receive POST request to /auth/login;
+note right
+    JSON Body:
+    {
+        "user_name": "jassim",
+        "password": "jassim123"
+    }
+end note
+:Parse JSON body;
+
+partition "Validation" {
+    if (All mandatory fields provided and are in the right format?) then (yes)
+        :Continue;
+    else (no)
+        :Return 422 Unprocessable Entity;
+        note right: {"detail": "Missing required fields"}
+        stop
+        note left: End
+    endif
+}
+
+partition "Authenticate" {
+    :Unhash password;
+    if (User and password match user records in database?) then (yes)
+        :Generate JWT token;
+        note right 
+            JSON Body:
+            {
+                "access_token": "token_value",
+                "token_type": "bearer"
+            }
+        end note
+        :Return 200 OK with token;
+        stop
+        note left: End
+    else (no)
+        :Return 401 Unauthorized;
+        note right: {"detail": "Invalid credentials"}
+        stop
+        note left: End
+    endif
+}
+@enduml

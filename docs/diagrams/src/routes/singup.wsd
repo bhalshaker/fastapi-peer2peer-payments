@@ -1,0 +1,56 @@
+@startuml Signup Process
+skinparam handwritten true
+skinparam titleBorder 1
+skinparam titleBorderColor black
+title **<u>Signup Process</u>**
+
+start
+note right: Start
+note right: Begin Signup Process
+:Receive POST request to /auth/signup;
+note right
+    JSON Body:
+    {
+        "user_name": "jassim",
+        "email": "jassim@example.com",
+        "password": "jassim123",
+        "first_name": "Jassim",
+        "middle_name": "Salman", (optional)
+        "last_name": "Alshomaliy"
+    }
+end note
+
+:Parse JSON body;
+
+partition "Validation" {
+    if (All mandatory fields provided and are in the right format?) then (yes)
+        :Check if username exists in database;
+        
+        if (Username exists?) then (yes)
+            :Return 400 Bad Request;
+            note right: {"detail": "Username already exists"}
+            stop
+            note left: End
+        else (no)
+        endif
+    else (no)
+        :Return 422 Unprocessable Entity;
+        note right: {"detail": "Missing required fields"}
+        note right: {"detail": "Invalid email format"}
+        stop
+        note left: End
+    endif
+}
+
+partition "User Creation" {
+    :Hash password;
+    :Create new user record;
+    :Save to database;
+    :Return 201 Created;
+    note right: {"message": "User created successfully"}
+}
+
+stop
+note left: "End"
+
+@enduml

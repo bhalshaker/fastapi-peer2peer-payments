@@ -1,0 +1,62 @@
+@startuml Send a Transaction to Another User
+skinparam handwritten true
+skinparam titleBorder 1
+skinparam titleBorderColor black
+title **<u>Send a Transaction to Another User</u>**
+
+start
+note right: Start
+:Receive POST request to /transactions/send with Authorization header;
+note right
+    JSON Body:
+    {
+        "receiver_account_id": "UUID",
+        "amount": "10.000"
+    }
+end note
+
+:Run Authorization Token Validation Process;
+:Validate request body for required fields;
+if (Request body is valid?) then (yes)
+    :Check if the receiver account ID is correctly provided;
+    if (Receiver account ID exists?) then (yes)
+        :Get receiver currency;
+    else (no)
+        :Return 400 Bad Request;
+        note right: {"detail": "Receiver account ID is not correctly provided"}
+        stop
+        note left: End
+    endif
+else (no)
+    :Return 422 Bad Request;
+    note right: {"detail": "Invalid request body"}
+    stop
+    note left: End
+endif
+:Get assosiated current user account and account currency and account balance;
+if (Sufficient balance?) then (yes)
+    :Calculate exchange rate if currencies are different and add 5% fee to exchange rate;
+    :Create a new transaction record in the database with panding status;
+    :Update sender and receiver account balances;
+    :Return 200 OK with transaction details and update transaction status to completed;
+    note right
+        JSON Body:
+        {
+            "transaction_id": "UUID",
+            "sender_account_id": "UUID",
+            "receiver_account_id": "UUID",
+            "amount": "0.000",
+            "from_currency": "BHD",
+            "to_currency": "USD",
+            "exchange_rate": "0.000000"
+        }
+    end note
+    stop
+    note left: End
+else (no)
+    :Return 400 Bad Request;
+    note right: {"detail": "Insufficient balance"}
+    stop
+    note left: End
+endif
+@enduml
