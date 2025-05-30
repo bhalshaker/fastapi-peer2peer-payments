@@ -17,6 +17,7 @@ note right
         "first_name": "Jassim",
         "middle_name": "Salman", (optional)
         "last_name": "Alshomaliy"
+        "currency": "USD" (optional)
     }
 end note
 
@@ -42,15 +43,28 @@ partition "Validation" {
     endif
 }
 
-partition "User Creation" {
+partition "User and Account Creation" {
     :Hash password;
     :Create new user record;
     :Save to database;
+    :Create new account record;
+    :Link account to user;
     :Return 201 Created;
-    note right: {"message": "User created successfully"}
+    note right 
+        JSON Response:
+        {
+            "user_id": "UUID",
+            "user_name": "jassim",
+            "email": "",
+            "first_name": "Jassim",
+            "middle_name": "Salman",
+            "last_name": "Alshomaliy",
+            "account_id": "UUID",
+            "currency": "USD"
+        }
+    end note
+    stop
+    note left: "End"
 }
-
-stop
-note left: "End"
 
 @enduml

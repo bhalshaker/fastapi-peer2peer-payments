@@ -15,28 +15,28 @@ This application has a simple data model:
 
 ### Application Routes
 
-#### Auth Routes
+#### 🔐 Auth Routes
 
 | HTTP Method | Endpoint        | Description                     | Who Can Access? | Notes                        | Workflow Respresentation |
 |-------------|------------------|---------------------------------|------------------|-------------------------------|-------------------------------|
 | POST        | /auth/signup     | Register a new user             | Public           | Stores hashed password        |[Signup Process](docs/diagrams/out/routes/signup.png)|
 | POST        | /auth/login      | Log in and receive JWT token    | Public           | Returns access token          |[Login Process](docs/diagrams/out/routes/login.png)|
 
-#### User & Account Routes
+#### 👤 User & 🏦 Account Routes
 
 | HTTP Method | Endpoint         | Description                       | Who Can Access? | Notes                                       | Workflow Respresentation |
 |-------------|------------------|-----------------------------------|------------------|----------------------------------------------|----------------------------------------------|
 | GET         | /users/me        | Get current user’s profile        | Logged-in users  | Returns username, email, and account ID      |[Get Current User Process](docs/diagrams/out/routes/users_me.png)|
 | GET         | /accounts/me     | View current user’s account balance | Logged-in users | Shows balance, currency, and account details |[Get Current User Account Process](docs/diagrams/out/routes/account_me.png)|
 
-#### Transaction Routes
+#### 💸 Transaction Routes
 
 | HTTP Method | Endpoint         | Description                       | Who Can Access? | Notes                                       | Workflow Respresentation |
 |-------------|------------------|-----------------------------------|------------------|----------------------------------------------|----------------------------------------------|
 | POST        | /transactions/send  | Transfer money to another user       | Logged-in users  | Requires sender’s ID, recipient’s ID, and amount. Prevents overdrafts. |[Send Transaction Process](docs/diagrams/out/routes/send_transaction.png)|
 | GET         | /transactions/history | View transaction history (sent & received) | Logged-in users  | Users can only view their own transactions                            |[Get Current User Transaction History Process](docs/diagrams/out/routes/user_transaction_history.png)|
 
-#### Stretch Goals: Admin Routes & External API Integration
+#### 🛠️ Stretch Goals: Admin Routes & External API Integration
 
 | HTTP Method | Endpoint         | Description                       | Who Can Access? | Notes                                       | Workflow Respresentation |
 |-------------|------------------|-----------------------------------|------------------|----------------------------------------------|----------------------------------------------|
