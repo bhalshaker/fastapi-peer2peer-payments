@@ -41,9 +41,19 @@ This application has a simple data model:
 | HTTP Method | Endpoint         | Description                       | Who Can Access? | Notes                                       | Workflow Respresentation |
 |-------------|------------------|-----------------------------------|------------------|----------------------------------------------|----------------------------------------------|
 | GET         | /transactions/{user_id}                  | View another user’s transactions     | Admins only      | For monitoring fraud or disputes                              |[Get User Transaction History By ID](docs/diagrams/out/routes/admin_view_user_transactions.svg)|
-| GET         | /exchange-rate?from=USD&to=EUR           | Fetch real-time exchange rate        | Logged-in users  | Uses an external API to get live exchange rates (if implemented) |[Get Currenct Exchange Rate](docs/diagrams/out/routes/get_exchange_rate.svg)|
+| GET         | /exchange-rate?from=USD&to=EUR           | Fetch real-time exchange rate        | Logged-in users  | Uses an external API to get live exchange rates (if implemented) |[Get Currency Exchange Rate](docs/diagrams/out/routes/get_exchange_rate.svg)|
 
 ## Technologies used
 
+| 📦 Language/Library/Component | 🧠 Justification|
+|----------------------------|--------------|
+| **Python 3.11**            | To make sure that python run time supports all choosen libraries in this project|
+| **FastAPI**  | Web framework for building APIs|
+| **Asyncpg**  | Python driver library to connect to PostgreSQL Database it is faster than psycopg and does not require installation for postgresql tools on the system as it is capable of running by it is own|
+| **SQLAlchemy** | Python wide known ORM library and some libraries such as SQLModel are built on top of it |
+| **argon2-cffi** without Passlib |Argon2 by it self is an award winning library and it is been decided that only one hashing algorithm is going to be used and thus using a passlibrary is not essential in additional to that passlib is not actively maintained |
+| **Pytest** | Test the application|
+| **Pyjwt** | To deal with JWT tokens |
+| **Uvicorn** | Production ASGI Server to run the wen APIS| 
 
 ## Attributions
