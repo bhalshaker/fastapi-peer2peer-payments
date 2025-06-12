@@ -9,7 +9,7 @@ engine = create_async_engine(db_url, pool_size=config.db_pool_size, max_overflow
 # Create an asynchronous session factory
 SessionLocal = async_sessionmaker(bind=engine, expire_on_commit=False)
 
-async def get_db() -> AsyncGenerator[AsyncSession, None]:
+async def get_db_session() -> AsyncGenerator[AsyncSession, None]:
     async with SessionLocal() as session:
         yield session
         
