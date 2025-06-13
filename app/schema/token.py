@@ -24,3 +24,15 @@ class DecodedTokenSchema(BaseModel):
         Returns the user ID from the subject field.
         """
         return UUID(self.sub)
+
+class TokenResponseSchema(JWTSchema):
+    """
+    Schema for the token response.
+    """
+    @computed_field
+    @property
+    def token_type(self) -> str:
+        """
+        Returns the type of the token.
+        """
+        return "Bearer"

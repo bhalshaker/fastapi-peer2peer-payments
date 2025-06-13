@@ -32,7 +32,7 @@ async def get_user_by_id(user_id: int, db: AsyncSession) -> UserModel | None:
     Returns:
         UserModel | None: The user model if found, otherwise None.
     """
-    result = await db.execute(select(UserModel).where(UserModel.id == UUID(user_id)))
+    result = await db.execute(select(UserModel).options(UserModel.account).where(UserModel.id == UUID(user_id)))
     return result.scalars().first()
 
 async def get_user_by_username(username: str, db: AsyncSession) -> UserModel | None:
