@@ -110,3 +110,4 @@ venv.bak/
 *.db
 /logs/*
 app/logs/*
+logs/*
