@@ -8,9 +8,12 @@ class CreateUserSchema(BaseModel):
     Attributes:
         username (str): The username of the user.
         email (EmailStr): The email address of the user.
-        password (str): The plain password for the user account.
+        plain_password (str): The plain password for the user account.
+        first_name (str): The first name of the user.
+        middle_name (Optional[str]): The middle name of the user, optional.
+        last_name (str): The last name of the user.
     """
-    user_name: str
+    username: str
     email: EmailStr
     plain_password: str
     first_name: str

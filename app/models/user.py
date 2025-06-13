@@ -23,7 +23,7 @@ class UserModel(BaseModel):
     This model stores personal information about users and their system access rights.
     Each user can have an associated account linked through a one-to-many relationship.
     Attributes:
-        user_name (str): Username for the user. Must be unique, maximum 50 characters.
+        username (str): Username for the user. Must be unique, maximum 50 characters.
         email (str): Email address of the user. Must be unique, maximum 100 characters.
         password (str): Hashed password for the user. Maximum 255 characters.
         first_name (str): User's first name. Maximum 50 characters.
@@ -37,7 +37,7 @@ class UserModel(BaseModel):
 
     __tablename__ = 'users'
     
-    user_name = Column(VARCHAR(50), nullable=False, unique=True)
+    username = Column(VARCHAR(50), nullable=False, unique=True)
     email = Column(VARCHAR(100), nullable=False, unique=True)
     password = Column(VARCHAR(255), nullable=False)
     first_name = Column(VARCHAR(50), nullable=False)
