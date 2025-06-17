@@ -22,6 +22,7 @@ class Config(BaseModel):
     admin_first_name:Optional[str]="Audit"
     admin_last_name:Optional[str]="Admin"
     use_testcontainers:bool=False
+    processing_fees:Optional[float]=0.01
 env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env")
 logger.info(f"### Loading environment variables from {env_path} ......")
 config_env=dotenv_values(env_path)
