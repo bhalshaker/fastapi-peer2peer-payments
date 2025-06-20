@@ -1,7 +1,9 @@
 from httpx import AsyncClient
 from config import config
 from functools import cache
+from tenacity import retry,stop_after_attempt
 
+@retry(stop=stop_after_attempt(3))
 async def convert_currency(from_currency: str, to_currency: str, amount: float=1.0) -> float:
     """
     Convert an amount from one currency to another using a mock exchange rate.
@@ -15,6 +17,7 @@ async def convert_currency(from_currency: str, to_currency: str, amount: float=1
             data = response.json()
             return data[from_currency][to_currency]*config.processing_fees*amount
 
+@retry(stop=stop_after_attempt(3))
 @cache
 async def get_currencies_list() -> list[str]:
     """

@@ -1,26 +1,35 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from schema import ExchangeRateParameters
-from httpx import AsyncClient
-from config import config
+from utilities import ConvertCurrencyController, GetCurrenciesListController
 
 
 miscellaneous_router = APIRouter()
 
 @miscellaneous_router.get("/api/v1/exchange-rate")
-async def get_exchange_rate(exchange_rate_params: ExchangeRateParameters):
+async def get_exchange_rate(
+    from_currency: str = Query(alias="from", description="The currency to convert from.",title="From Currency"),
+    to_currency: str = Query(alias="to",description="The currency to convert to.", title="To Currency")
+):
     """
     Get the exchange rate between two currencies.
     """
-    from_currency = exchange_rate_params.from_currency.lower()
-    to_currency = exchange_rate_params.to_currency.lower()
+    # Normalize to lowercase
+    from_currency = from_currency.lower()
+    to_currency = to_currency.lower()
     
-    async with AsyncClient() as client:
-        response = await client.get(
-            f"https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/{from_currency}.json"
-        )
+    try:
+        # Validate that the currencies are valid
+        currencies = await GetCurrenciesListController()
+        if from_currency not in currencies:
+            raise HTTPException(status_code=400, detail=f"Invalid currency code: {from_currency}")
+        if to_currency not in currencies:
+            raise HTTPException(status_code=400, detail=f"Invalid currency code: {to_currency}")
         
-        if response.status_code == 200:
-            data = response.json()
-            data[from_currency][to_currency]*config.processing_fees
-        else:
-            raise HTTPException(status_code=response.status_code, detail="Error fetching exchange rate")
+        # Convert the currency
+        rate = await ConvertCurrencyController(from_currency, to_currency)
+        return {"from": from_currency, "to": to_currency, "rate": rate}
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    

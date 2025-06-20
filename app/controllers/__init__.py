@@ -1,3 +1,2 @@
 from .user import create_user as CreateUserController
-from .miscellaneous import convert_currency as ConvertCurrencyController
-from .miscellaneous import get_currencies_list as GetCurrenciesListController
+from .get_current_user import get_current_user as GetCurrentUserController

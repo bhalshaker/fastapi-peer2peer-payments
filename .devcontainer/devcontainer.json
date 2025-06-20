@@ -1,0 +1,33 @@
+{
+  "name": "FastAPI Peer2Peer Payments",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": true,
+        "python.formatting.provider": "black",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.organizeImports": true
+        }
+      },
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-azuretools.vscode-docker",
+        "njpwerner.autodocstring"
+      ]
+    }
+  },
+  "forwardPorts": [
+    8000
+  ],
+  "postCreateCommand": "cd /workspaces/fastapi-peer2peer-payments/app && pip install --no-cache-dir -r requirements.txt",
+  "postStartCommand": "cd /workspaces/fastapi-peer2peer-payments/app && uvicorn main:app --host 0.0.0.0 --port 8000 --reload",
+  "remoteUser": "root"
+}
