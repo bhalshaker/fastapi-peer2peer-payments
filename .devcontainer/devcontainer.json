@@ -28,6 +28,6 @@
     8000
   ],
   "postCreateCommand": "cd /workspaces/fastapi-peer2peer-payments/app && pip install --no-cache-dir -r requirements.txt",
-  "postStartCommand": "cd /workspaces/fastapi-peer2peer-payments/app && uvicorn main:app --host 0.0.0.0 --port 8000 --reload",
+  /*"postStartCommand": "cd /workspaces/fastapi-peer2peer-payments/app && uvicorn main:app --host 0.0.0.0 --port 8000 --reload",*/
   "remoteUser": "root"
 }
