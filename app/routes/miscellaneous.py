@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, Query,Request
-from schema import ExchangeRateParameters,ExchangeRateRespsonse
+from schema import ExchangeRateRespsonse
 from utilities import ConvertCurrencyController, GetCurrenciesListController
 
 

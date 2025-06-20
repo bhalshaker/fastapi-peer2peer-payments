@@ -1,3 +1,3 @@
 from .token import JWTSchema,PayloadSchema,DecodedTokenSchema
 from .user import CreateUserSchema,BasicUserInfoSchema, UserInfoSchema
-from .miscellaneous import ExchangeRateParameters,ExchangeRateRespsonse
+from .miscellaneous import ExchangeRateRespsonse
