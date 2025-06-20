@@ -15,7 +15,8 @@ async def convert_currency(from_currency: str, to_currency: str, amount: float=1
         
         if response.status_code == 200:
             data = response.json()
-            return data[from_currency][to_currency]*config.processing_fees*amount
+            rate=data[from_currency][to_currency]*(1+config.processing_fees)*amount
+            return rate
 
 @retry(stop=stop_after_attempt(3))
 @cache

@@ -1,33 +1,46 @@
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query,Request
 from schema import ExchangeRateParameters
 from utilities import ConvertCurrencyController, GetCurrenciesListController
 
 
 miscellaneous_router = APIRouter()
+_currencies_cache = None
+
+async def get_currencies_list():
+    global _currencies_cache
+    if _currencies_cache is None:
+        _currencies_cache = await GetCurrenciesListController()
 
 @miscellaneous_router.get("/api/v1/exchange-rate")
-async def get_exchange_rate(
+async def get_exchange_rate(request: Request,
     from_currency: str = Query(alias="from", description="The currency to convert from.",title="From Currency"),
     to_currency: str = Query(alias="to",description="The currency to convert to.", title="To Currency")
 ):
     """
     Get the exchange rate between two currencies.
     """
+    allowed_params={"from", "to"}
+    actual_params = set(request.query_params.keys())
+    extra_params = actual_params - allowed_params
+    if extra_params:
+        raise HTTPException(status_code=422, detail=f"Invalid query parameters: {', '.join(extra_params)}")
+    if not from_currency or not to_currency:
+        raise HTTPException(status_code=422, detail="Both 'from' and 'to' parameters are required.")
     # Normalize to lowercase
     from_currency = from_currency.lower()
     to_currency = to_currency.lower()
     
     try:
         # Validate that the currencies are valid
-        currencies = await GetCurrenciesListController()
-        if from_currency not in currencies:
-            raise HTTPException(status_code=400, detail=f"Invalid currency code: {from_currency}")
-        if to_currency not in currencies:
-            raise HTTPException(status_code=400, detail=f"Invalid currency code: {to_currency}")
+        await get_currencies_list()
+        if from_currency not in _currencies_cache:
+            raise HTTPException(status_code=422, detail=f"Invalid currency code: {from_currency}")
+        if to_currency not in _currencies_cache:
+            raise HTTPException(status_code=422, detail=f"Invalid currency code: {to_currency}")
         
         # Convert the currency
         rate = await ConvertCurrencyController(from_currency, to_currency)
-        return {"from": from_currency, "to": to_currency, "rate": rate}
+        return {"from": from_currency, "to": to_currency, "rate": round(rate,3)}
     except HTTPException:
         raise
     except Exception as e:
