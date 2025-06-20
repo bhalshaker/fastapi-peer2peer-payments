@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, Query,Request
-from schema import ExchangeRateParameters
+from schema import ExchangeRateParameters,ExchangeRateRespsonse
 from utilities import ConvertCurrencyController, GetCurrenciesListController
 
 
@@ -11,7 +11,9 @@ async def get_currencies_list():
     if _currencies_cache is None:
         _currencies_cache = await GetCurrenciesListController()
 
-@miscellaneous_router.get("/api/v1/exchange-rate")
+@miscellaneous_router.get("/api/v1/exchange-rate",summary="Get Exchange Rate",
+    description="Get the exchange rate between two currencies.",
+    response_model=ExchangeRateRespsonse)
 async def get_exchange_rate(request: Request,
     from_currency: str = Query(alias="from", description="The currency to convert from.",title="From Currency"),
     to_currency: str = Query(alias="to",description="The currency to convert to.", title="To Currency")
@@ -19,6 +21,7 @@ async def get_exchange_rate(request: Request,
     """
     Get the exchange rate between two currencies.
     """
+    print(f"Request received for exchange rate from {from_currency} to {to_currency}")
     allowed_params={"from", "to"}
     actual_params = set(request.query_params.keys())
     extra_params = actual_params - allowed_params
@@ -40,7 +43,8 @@ async def get_exchange_rate(request: Request,
         
         # Convert the currency
         rate = await ConvertCurrencyController(from_currency, to_currency)
-        return {"from": from_currency, "to": to_currency, "rate": round(rate,3)}
+        exchange_response = ExchangeRateRespsonse(from_currency=from_currency, to_currency=to_currency, rate=round(rate,3))
+        return exchange_response
     except HTTPException:
         raise
     except Exception as e:

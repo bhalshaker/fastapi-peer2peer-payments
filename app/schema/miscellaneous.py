@@ -19,3 +19,11 @@ class ExchangeRateParameters(BaseModel):
     #     # Don't validate - we'll just normalize to lowercase
     #     # Actual API validation will happen when the endpoint is called
     #     return value.lower()  # Normalize to lowercase
+
+class ExchangeRateRespsonse(BaseModel):
+    """
+    Response model for exchange rate conversion.
+    """
+    from_currency: str = Field(..., description="The currency converted from.")
+    to_currency: str = Field(..., description="The currency converted to.")
+    rate: float = Field(..., description="The exchange rate between the two currencies.")
