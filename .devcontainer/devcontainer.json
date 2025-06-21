@@ -1,9 +1,8 @@
 {
-  "name": "FastAPI Peer2Peer Payments",
-  "build": {
-    "dockerfile": "Dockerfile",
-    "context": ".."
-  },
+  "name": "FastAPI Peer2Peer Payments Development Environment",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
   "customizations": {
     "vscode": {
       "settings": {
@@ -13,7 +12,7 @@
         "python.formatting.provider": "black",
         "editor.formatOnSave": true,
         "editor.codeActionsOnSave": {
-          "source.organizeImports": true
+          "source.organizeImports": "explicit"
         }
       },
       "extensions": [
@@ -25,9 +24,9 @@
     }
   },
   "forwardPorts": [
-    8000
+    8000, 5432
   ],
-  "postCreateCommand": "cd /workspaces/fastapi-peer2peer-payments/app && pip install --no-cache-dir -r requirements.txt",
-  /*"postStartCommand": "cd /workspaces/fastapi-peer2peer-payments/app && uvicorn main:app --host 0.0.0.0 --port 8000 --reload",*/
+  "postCreateCommand": "cd /workspace/app && pip install --no-cache-dir -r requirements.txt",
+  "postStartCommand": "echo 'Development environment ready! You can now run the app with: cd /workspace/app && uvicorn main:app --host 0.0.0.0 --port 8000 --reload'",
   "remoteUser": "root"
 }

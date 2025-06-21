@@ -1,22 +1,27 @@
-FROM python:3.11-slim
+FROM python:3.12-slim
+
+# Use root user explicitly
+USER root
 
 # Update and install dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt-get update \
+    && export DEBIAN_FRONTEND=noninteractive \
+    && apt-get install -y --no-install-recommends \
+    postgresql-client \
     git \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Set working directory
-WORKDIR /app
-# Install Python dependencies
-COPY app/requirements.txt .
+# Set working directory (will be created by the volume mount)
+WORKDIR /workspace
 
-RUN pip install --no-cache-dir -r requirements.txt
+
+# Note: requirements.txt will be mounted via volume and installed in the postCreateCommand
 
 # Set environment variables
-ENV PYTHONPATH=/app
+ENV PYTHONPATH=/workspace
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Set the command to run when container starts
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+# [Optional] Keep the container running
+CMD ["sleep", "infinity"]

@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    
+    # Mount your project directory into the container
+    volumes:
+      - ..:/workspace:cached,z
+      - vscode-extensions:/root/.vscode-server/extensions
+
+    # Keep the container running
+    command: sleep infinity
+    
+    # Run as root explicitly
+    user: root
+
+    # Port forwarding for FastAPI
+    ports:
+      - "8000:8000"
+      
+    # Environment variables for database connection
+    environment:
+      - DATABASE_URL=postgresql://peer2peerpay:peer2peerpay@db:5432/peer2peerpay
+      - PYTHONPATH=/workspace
+    
+    # Depend on the database service to ensure it starts first
+    depends_on:
+      - db
+
+  db:
+    # Use the official PostgreSQL image
+    image: postgres:15-alpine
+    
+    # Persist database data across container restarts
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    
+    # Port mapping for PostgreSQL
+    ports:
+      - "5432:5432"
+    
+    # Set environment variables for the database
+    # These are the credentials your Python app will use to connect
+    environment:
+      POSTGRES_DB: peer2peerpay
+      POSTGRES_USER: peer2peerpay
+      POSTGRES_PASSWORD: peer2peerpay
+
+volumes:
+  postgres_data:
+  vscode-extensions:
