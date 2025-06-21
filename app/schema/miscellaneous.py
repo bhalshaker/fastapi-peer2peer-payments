@@ -1,0 +1,11 @@
+from pydantic import BaseModel, Field, field_serializer
+from typing import Annotated
+from fastapi import Query
+
+class ExchangeRateRespsonse(BaseModel):
+    """
+    Response model for exchange rate conversion.
+    """
+    from_currency: str = Field(..., description="The currency converted from.")
+    to_currency: str = Field(..., description="The currency converted to.")
+    rate: float = Field(..., description="The exchange rate between the two currencies.")

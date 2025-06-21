@@ -7,7 +7,6 @@ from database import get_db_session
 from jwt import DecodeError, ExpiredSignatureError
 from utilities import decode_token
 from services import GetUserByIdService
-from schema import DecodedTokenSchema
 
 http_bearer = HTTPBearer()
 

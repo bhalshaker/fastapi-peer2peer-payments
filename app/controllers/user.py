@@ -15,7 +15,7 @@ async def create_user(user:CreateUserSchema, db: AsyncSession, is_admin:bool=Fal
     Returns:
         UserModel: The created user model.
     """
-    new_user = UserModel(**user.model_dump(exclude={"plain_password"},is_admin=is_admin))
+    new_user = UserModel(**user.model_dump(exclude={"plain_password"}),is_admin=is_admin)
     db.add(new_user)
     await db.commit()
     await db.refresh(new_user)

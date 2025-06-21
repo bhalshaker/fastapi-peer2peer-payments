@@ -53,7 +53,7 @@ This application has a simple data model:
 ### Required Software to be installed/available
 
 * 🐍 Python
-* 🐳 Docker/ 🐙 Podman to run the database in containers [How to configure Podman for TestConainers in Linux](docs/howto/podman_testcontainers.md) (Optional)
+* 🐳 Docker/ 🦭 Podman to run the database in containers [How to configure Podman for TestConainers in Linux](docs/howto/podman_testcontainers.md) (Optional)
 * UV to maintain python libraries and seperate dev libraries from production ones (Required)
 * 🐘 PostgreSQL server (Required)
 

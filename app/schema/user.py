@@ -21,6 +21,7 @@ class CreateUserSchema(BaseModel):
     first_name: str
     middle_name : Optional[str] = None
     last_name: str
+    account_currency: str = "bhd"
 
     @computed_field
     @property
