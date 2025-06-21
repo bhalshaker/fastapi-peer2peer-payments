@@ -1,10 +1,9 @@
 from pydantic import BaseModel
+from uuid import UUID
 
 class CreateAccountSchema(BaseModel):
     """
     Schema for creating a new account.
     """
-    username: str
-    email: str
-    password: str
-    is_admin: bool = False
+    user_id:UUID
+    currency:str
