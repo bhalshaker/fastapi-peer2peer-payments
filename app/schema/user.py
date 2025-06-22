@@ -64,3 +64,13 @@ class UserInfoSchema(BaseSchema):
     middle_name: Optional[str] = None
     last_name: str
     account_id: UUID
+
+class LoginUserSchema(BaseModel):
+    """
+    Schema for user login.
+    Attributes:
+        username (str): The username of the user.
+        password (str): The plain password for the user account.
+    """
+    username: str
+    password: str
