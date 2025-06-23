@@ -63,6 +63,7 @@ class UserInfoSchema(BaseSchema):
     first_name: str
     middle_name: Optional[str] = None
     last_name: str
+    is_admin: bool
     account_id: UUID
 
 class LoginUserSchema(BaseModel):
