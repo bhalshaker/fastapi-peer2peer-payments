@@ -45,4 +45,4 @@ class UserModel(BaseModel):
     last_name = Column(VARCHAR(50), nullable=False)
     is_admin = Column(BOOLEAN, nullable=False, default=False)
     user_status = Column(SQLAlchemyEnum(UserStatus), nullable=False, default=UserStatus.ACTIVE)
-    account= relationship('AccountModel', back_populates='user')
+    account = relationship('AccountModel', back_populates='user', uselist=False)

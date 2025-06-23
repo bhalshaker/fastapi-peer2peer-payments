@@ -3,8 +3,8 @@ from datetime import datetime
 from uuid import UUID
 
 class JWTSchema(BaseModel):
-    expires_at:datetime
-    issued_at:datetime
+    exp:datetime
+    iat:datetime
     apikey:str
 
 class PayloadSchema(BaseModel):

@@ -1,4 +1,5 @@
 from sqlalchemy.future import select
+from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 from models import UserModel
 from schema import CreateUserSchema, CreateAccountSchema,UserInfoSchema
@@ -22,18 +23,18 @@ async def create_user(user:CreateUserSchema, db: AsyncSession, is_admin:bool=Fal
     await db.refresh(new_user)
     return new_user
 
-async def get_user_by_id(user_id: int, db: AsyncSession) -> UserModel | None:
+async def get_user_by_id(user_id: UUID, db: AsyncSession) -> UserModel | None:
     """
     Retrieve a user by their ID.
     
     Args:
-        user_id (int): The ID of the user to retrieve.
+        user_id (UUID): The ID of the user to retrieve.
         db (AsyncSession): The database session.
     
     Returns:
         UserModel | None: The user model if found, otherwise None.
     """
-    result = await db.execute(select(UserModel).where(UserModel.id == UUID(user_id)))
+    result = await db.execute(select(UserModel).options(selectinload(UserModel.account)).where(UserModel.id == user_id))
     return result.scalars().first()
 
 async def get_user_by_username(username: str, db: AsyncSession) -> UserModel | None:

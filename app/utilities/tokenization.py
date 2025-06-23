@@ -19,7 +19,7 @@ def generate_token(user_id:UUID,is_admin:bool)->JWTSchema:
         """
         
         payload = generate_token_payload(user_id, is_admin)
-        token = jwt.encode(payload, config.token_secret, algorithm="HS256")
+        token = jwt.encode(payload.model_dump(), config.token_secret, algorithm="HS256")
         user_response = JWTSchema(**payload.model_dump(exclude={"sub","is_admin"}), apikey=token)
         return user_response
 
@@ -33,7 +33,7 @@ def decode_token(credentials:str)->DecodedTokenSchema:
         """
         
         payload = jwt.decode(credentials, config.token_secret, algorithms=["HS256"])
-        return DecodedTokenSchema(payload.get("sub"), payload.get("is_admin"))
+        return DecodedTokenSchema(sub=payload.get("sub"), is_admin=payload.get("is_admin"))
 
 def generate_token_payload(user_id:UUID,is_admin:bool,expiration_time: int = 86400) -> PayloadSchema:
     """
@@ -43,7 +43,7 @@ def generate_token_payload(user_id:UUID,is_admin:bool,expiration_time: int = 864
     Returns:
         PayloadSchema: The token payload with the expiration time.
     """
-    return PayloadSchema(datetime.now(timezone.utc) + timedelta(seconds=expiration_time),
-                         datetime.now(timezone.utc),
-                         str(user_id),
-                         is_admin)
+    return PayloadSchema(exp=datetime.now(timezone.utc) + timedelta(seconds=expiration_time),
+                         iat=datetime.now(timezone.utc),
+                         sub=str(user_id),
+                         is_admin=is_admin)

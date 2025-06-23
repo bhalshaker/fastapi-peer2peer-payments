@@ -24,6 +24,16 @@ async def display_logged_in_userinfo(current_user: UserModel = Depends(GetCurren
         HTTPException: If the user is not authenticated or if there is an error retrieving the user information.
     """
     try:
-        return UserInfoSchema(username=current_user.username, email=current_user.email, account_id=current_user.account.id)
+
+        account_id = None if current_user.account is None else current_user.account.id
+        return UserInfoSchema(
+            id=current_user.id,
+            username=current_user.username, 
+            email=current_user.email,
+            first_name=current_user.first_name,
+            middle_name=current_user.middle_name,
+            last_name=current_user.last_name,
+            is_admin=current_user.is_admin,
+            account_id=account_id)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error retrieving user information: {str(e)}")
