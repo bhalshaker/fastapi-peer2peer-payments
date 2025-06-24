@@ -1,3 +1,4 @@
+from fastapi import HTTPException,status
 from sqlalchemy.future import select
 from sqlalchemy.orm import selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -50,6 +51,15 @@ async def get_user_by_username(username: str, db: AsyncSession) -> UserModel | N
     """
     result = await db.execute(select(UserModel).where(UserModel.username == username))
     return result.scalars().first()
+# Get user by username or email
+async def get_user_by_username_email(username: str,email:str, db: AsyncSession) -> UserModel | None:
+    """ Retrieve a user by their username or email."""
+    result = await db.execute(
+        select(UserModel).where(
+            (UserModel.username == username) | (UserModel.email == email)
+        )
+    )
+    return result.scalars().first()
 
 async def signup_user(user: CreateUserSchema, db: AsyncSession) -> UserInfoSchema:
     """
@@ -62,6 +72,12 @@ async def signup_user(user: CreateUserSchema, db: AsyncSession) -> UserInfoSchem
     Returns:
         UserModel: The created user model.
     """
+    #Check if username or email already exists
+    existing_user = await get_user_by_username_email(user.username,user.email, db)
+    if existing_user:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Username or email already exists.")
     new_user=await create_user(user, db, False)
     create_account_schema= CreateAccountSchema(
         user_id=new_user.id,

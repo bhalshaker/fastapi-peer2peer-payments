@@ -10,6 +10,7 @@ async def get_currencies_list():
     global _currencies_cache
     if _currencies_cache is None:
         _currencies_cache = await GetCurrenciesListController()
+    return _currencies_cache
 
 @miscellaneous_router.get("/api/v1/exchange-rate",summary="Get Exchange Rate",
     description="Get the exchange rate between two currencies.",
@@ -35,10 +36,10 @@ async def get_exchange_rate(request: Request,
     
     try:
         # Validate that the currencies are valid
-        await get_currencies_list()
-        if from_currency not in _currencies_cache:
+        currencies_list=await get_currencies_list()
+        if from_currency not in currencies_list:
             raise HTTPException(status_code=422, detail=f"Invalid currency code: {from_currency}")
-        if to_currency not in _currencies_cache:
+        if to_currency not in currencies_list:
             raise HTTPException(status_code=422, detail=f"Invalid currency code: {to_currency}")
         
         # Convert the currency
