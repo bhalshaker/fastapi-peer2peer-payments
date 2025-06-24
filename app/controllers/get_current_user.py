@@ -6,7 +6,8 @@ from models.user import UserModel
 from database import get_db_session
 from jwt import DecodeError, ExpiredSignatureError
 from utilities import decode_token
-from services import GetUserByIdService
+from .user import get_user_by_id
+from uuid import UUID
 
 http_bearer = HTTPBearer()
 
@@ -29,7 +30,7 @@ async def get_current_user(token: Annotated[HTTPAuthorizationCredentials, Depend
         decoded_token = decode_token(token.credentials)
         if decoded_token:
             try:
-                user = await GetUserByIdService(decoded_token.sub, db)
+                user = await get_user_by_id(UUID(decoded_token.sub), db)
                 if not user:
                     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                                  detail="Invalid username or password")

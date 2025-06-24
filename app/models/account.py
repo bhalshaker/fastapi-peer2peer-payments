@@ -38,7 +38,7 @@ class AccountModel(BaseModel):
     balance =Column(Numeric(precision=10, scale=3), nullable=False, default=0.000)
     currency =Column(VARCHAR(3), nullable=False, default='BHD')
     account_status = Column(SQLAlchemyEnum(AccountStatus), nullable=False, default=AccountStatus.ACTIVE)
-    user=relationship('UserModel',back_populates='account')
+    user = relationship('UserModel', back_populates='account', uselist=False)
     sent_transactions = relationship(
         'TransactionModel',
         back_populates='sender_account',
