@@ -18,6 +18,7 @@ async def create_user(user:CreateUserSchema, db: AsyncSession, is_admin:bool=Fal
     Returns:
         UserModel: The created user model.
     """
+    await db.flush()  # Ensure the session is flushed before creating the user
     new_user = UserModel(**user.model_dump(exclude={"plain_password","account_currency"}),is_admin=is_admin)
     db.add(new_user)
     await db.commit()
