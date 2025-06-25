@@ -5,6 +5,7 @@ from uuid import UUID
 from sqlalchemy.future import select
 
 async def create_account(account:CreateAccountSchema, db: AsyncSession) -> AccountModel:
+    await db.flush()
     new_account = AccountModel(**account.model_dump())
     db.add(new_account)
     await db.commit()
