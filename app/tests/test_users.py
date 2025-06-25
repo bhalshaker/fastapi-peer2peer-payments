@@ -159,7 +159,7 @@ async def test_get_current_user_profile(client):
 async def test_get_current_user_profile_unauthenticated(client):
     # Attempt to get current user's profile without authentication
     profile_resp = await client.get("/api/v1/users/me")
-    # Assert profile retrieval failed with 403 Forbidden
+    # Assert profile retrieval failed with 401 Unauthorized
     assert profile_resp.status_code == 403
     assert profile_resp.json() == {"detail": "Not authenticated"}
 
@@ -175,5 +175,5 @@ async def test_get_current_user_profile_invalid_token(client):
         headers={"Authorization": "Bearer invalid_token"}
     )
     
-    # Assert profile retrieval failed with 403 Forbidden
-    assert profile_resp.status_code == 403
+    # Assert profile retrieval failed with 401 Unauthorized
+    assert profile_resp.status_code == 401
