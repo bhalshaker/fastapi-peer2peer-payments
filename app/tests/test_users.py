@@ -1,8 +1,6 @@
 import pytest
-from httpx import ASGITransport, AsyncClient
-from main import app
 from uuid import uuid4
-from datetime import datetime
+from utilities import generate_token
 
 transaction_test_data={
     "first_user":
@@ -174,6 +172,18 @@ async def test_get_current_user_profile_invalid_token(client):
         "/api/v1/users/me",
         headers={"Authorization": "Bearer invalid_token"}
     )
+    
+    # Assert profile retrieval failed with 401 Unauthorized
+    assert profile_resp.status_code == 401
+
+#Not a valid user id token
+@pytest.mark.anyio
+async def test_get_current_user_profile_invalid_user_id(client):
+    token_json=generate_token(uuid4(),False) 
+    # Get current user's profile with an invalid user ID token
+    profile_resp = await client.get(
+        "/api/v1/users/me",
+        headers={"Authorization": f"Bearer {token_json.apikey}"})
     
     # Assert profile retrieval failed with 401 Unauthorized
     assert profile_resp.status_code == 401
