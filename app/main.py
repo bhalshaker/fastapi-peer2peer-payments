@@ -31,3 +31,4 @@ app = FastAPI(title=config_data["application"].get("title","FastAPI Peer to Peer
 app.include_router(router=UserRouter, tags=["Users"])
 app.include_router(router=AuthRouter, tags=["Authentication","Users"])
 app.include_router(router=MiscellaneousRouter, tags=["Transactions","Miscellaneous"])
+app.include_router(router=AccountRouter, tags=["Accounts"])

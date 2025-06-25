@@ -3,6 +3,7 @@ from models import AccountModel
 from schema import CreateAccountSchema
 from uuid import UUID
 from sqlalchemy.future import select
+from decimal import Decimal
 
 async def create_account(account:CreateAccountSchema, db: AsyncSession) -> AccountModel:
     await db.flush()
@@ -40,7 +41,7 @@ async def update_account_balance(account_id: UUID, change_in_balance: float, db:
     """
     account = await get_account_by_id(account_id, db)
     if account:
-        account.balance = account.balance+change_in_balance
+        account.balance = account.balance + Decimal(str(change_in_balance))
         await db.commit()
         await db.refresh(account)
     return account
