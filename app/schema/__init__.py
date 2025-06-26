@@ -2,4 +2,4 @@ from .token import JWTSchema,PayloadSchema,DecodedTokenSchema,TokenResponseSchem
 from .user import CreateUserSchema,BasicUserInfoSchema, UserInfoSchema,LoginUserSchema
 from .miscellaneous import ExchangeRateRespsonse
 from .account import CreateAccountSchema, TopUpRequestSchema, AccountInfoSchema
-from .transaction import CreateTransactionRequestSchema,TransactionInfoSchema
+from .transaction import CreateTransactionRequestSchema,TransactionInfoSchema,TransactionsOfUserSchema
