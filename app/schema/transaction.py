@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel,PositiveFloat
 from uuid import UUID
 
 class CreateTransactionRequestSchema(BaseModel):
@@ -9,7 +9,7 @@ class CreateTransactionRequestSchema(BaseModel):
 class TransactionInfoSchema(BaseModel):
     sender_account_id : UUID
     receiver_account_id : UUID
-    amount : float
+    amount : PositiveFloat
     from_currency : str
     to_currency : str
     exchange_rate : float

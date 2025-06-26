@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, Query,Request
 from schema import ExchangeRateRespsonse
-from utilities import ConvertCurrencyController, GetCurrenciesListController
+from utilities import ConvertCurrencyUtility, GetCurrenciesListUtility
 
 
 miscellaneous_router = APIRouter()
@@ -9,7 +9,7 @@ _currencies_cache = None
 async def get_currencies_list():
     global _currencies_cache
     if _currencies_cache is None:
-        _currencies_cache = await GetCurrenciesListController()
+        _currencies_cache = await GetCurrenciesListUtility()
     return _currencies_cache
 
 @miscellaneous_router.get("/api/v1/exchange-rate",summary="Get Exchange Rate",
@@ -22,7 +22,7 @@ async def get_exchange_rate(request: Request,
     """
     Get the exchange rate between two currencies.
     """
-    print(f"Request received for exchange rate from {from_currency} to {to_currency}")
+    
     allowed_params={"from", "to"}
     actual_params = set(request.query_params.keys())
     extra_params = actual_params - allowed_params
@@ -43,8 +43,11 @@ async def get_exchange_rate(request: Request,
             raise HTTPException(status_code=422, detail=f"Invalid currency code: {to_currency}")
         
         # Convert the currency
-        rate = await ConvertCurrencyController(from_currency, to_currency)
-        exchange_response = ExchangeRateRespsonse(from_currency=from_currency, to_currency=to_currency, rate=round(rate,3))
+        convertion_data = await ConvertCurrencyUtility(from_currency, to_currency)
+        exchange_response = ExchangeRateRespsonse(from_currency=from_currency,
+                                                  to_currency=to_currency,
+                                                  rate=round(convertion_data['exchange_rate'],3),
+                                                  converted_amount=convertion_data['converted_amount'])
         return exchange_response
     except HTTPException:
         raise

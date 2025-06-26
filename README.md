@@ -33,6 +33,7 @@ This application has a simple data model:
 |-------------|------------------|-----------------------------------|------------------|----------------------------------------------|----------------------------------------------|
 | GET         | /users/me        | Get current user’s profile        | Logged-in users  | Returns username, email, and account ID      |[Get Current User Process](docs/diagrams/out/routes/get_current_user_details.svg)|
 | GET         | /accounts/me     | View current user’s account balance | Logged-in users | Shows balance, currency, and account details |[Get Current User Account Process](docs/diagrams/out/routes/account_me.svg)|
+| POSt         | /accounts/top-up     | Add amount to user account balance | Logged-in users | Requires a positive amount and returns account details |*****|
 
 #### 💸 Transaction Routes
 
