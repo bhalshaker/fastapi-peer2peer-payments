@@ -1,6 +1,4 @@
 from pydantic import BaseModel, Field, field_serializer
-from typing import Annotated
-from fastapi import Query
 
 class ExchangeRateRespsonse(BaseModel):
     """
@@ -10,3 +8,4 @@ class ExchangeRateRespsonse(BaseModel):
     to_currency: str = Field(..., description="The currency converted to.")
     rate: float = Field(..., description="The exchange rate between the two currencies.")
     converted_amount: float = Field(..., description="The amount converted from the from_currency to the to_currency.")
+

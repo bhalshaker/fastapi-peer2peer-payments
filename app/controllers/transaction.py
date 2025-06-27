@@ -99,20 +99,20 @@ async def carry_out_transaction(transaction: CreateTransactionRequestSchema,send
     receiver_amount = transaction.amount
     exchange_rate= 1.0
     if sender_account.currency != receiver_account.currency:
-        exchange_convertion_data = ConvertCurrencyUtility(sender_account.currency, receiver_account.currency, transaction.amount)
-        receiver_amount = exchange_convertion_data['converted_amount']
-        exchange_rate = exchange_convertion_data['exchange_rate']
+        exchange_convertion_data = await ConvertCurrencyUtility(sender_account.currency, receiver_account.currency, transaction.amount)
+        receiver_amount = exchange_convertion_data["converted_amount"]
+        exchange_rate = exchange_convertion_data["exchange_rate"]
 
     # Deduct amount from sender's account balanace
     await update_account_balance(
         account_id=sender_account.id,
-        amount=-transaction.amount,  # Deduct the amount from sender's balance
+        change_in_balance=(-1*transaction.amount),  # Deduct the amount from sender's balance
         db=db
     )
     # Topup amount to receiver balance
     await update_account_balance(
         account_id=receiver_account.id,
-        amount=receiver_amount,  # Add the converted amount to receiver's balance
+        change_in_balance=receiver_amount,  # Add the converted amount to receiver's balance
         db=db
     )
     # Record the transaction

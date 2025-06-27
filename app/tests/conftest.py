@@ -12,6 +12,9 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 from main import app
 from database import get_db_session
 from models import Base
+from schema import CreateUserSchema
+from controllers import CreateUserController
+from config import config
 
 @pytest_asyncio.fixture(scope="function")
 async def db_engine():
@@ -72,6 +75,22 @@ async def client(db_session):
     
     # Clean up
     app.dependency_overrides = {}
+
+@pytest_asyncio.fixture(scope="function")
+async def create_admin_user(db_session):
+    """Create an admin user for testing."""
+    # Create an admin user based on the configuration settings
+    admin_user = CreateUserSchema(
+        username=config.admin_username,
+        email=config.admin_email,
+        plain_password=config.admin_password,
+        first_name=config.admin_first_name,
+        last_name=config.admin_last_name
+    )
+    
+    # Use the controller to create the admin user
+    admin = await CreateUserController(admin_user, db_session, is_admin=True)
+    return admin
 
 @pytest.fixture(scope="session")
 def anyio_backend():
