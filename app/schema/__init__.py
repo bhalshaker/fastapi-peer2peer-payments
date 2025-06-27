@@ -1,5 +1,6 @@
 from .token import JWTSchema,PayloadSchema,DecodedTokenSchema,TokenResponseSchema
 from .user import CreateUserSchema,BasicUserInfoSchema, UserInfoSchema,LoginUserSchema
 from .miscellaneous import ExchangeRateRespsonse
+from .exchnage_rate import ExchangeRate as ExchangeRateSchema
 from .account import CreateAccountSchema, TopUpRequestSchema, AccountInfoSchema
 from .transaction import CreateTransactionRequestSchema,TransactionInfoSchema,TransactionsOfUserSchema

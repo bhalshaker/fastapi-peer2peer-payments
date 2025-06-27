@@ -15,7 +15,9 @@ transaction_router = APIRouter()
 async def transfer_money(tranaction_request:CreateTransactionRequestSchema,current_user:UserModel=Depends(GetCurrentUserController)
                          ,db_session:AsyncSession=Depends(get_db_session))-> TransactionInfoSchema:
     if current_user.account.balance < tranaction_request.amount:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Insufficient balance for the transaction.")
+        raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE, detail="Insufficient balance for the transaction.")
+    if tranaction_request.receiver_account_id == current_user.account.id:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Cannot transfer money to the same account.")
     return await CarryOutTransactionController(tranaction_request, current_user.account, db_session)
 
 @transaction_router.get("/api/v1/transactions/history",

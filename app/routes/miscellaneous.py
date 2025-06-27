@@ -46,8 +46,8 @@ async def get_exchange_rate(request: Request,
         convertion_data = await ConvertCurrencyUtility(from_currency, to_currency)
         exchange_response = ExchangeRateRespsonse(from_currency=from_currency,
                                                   to_currency=to_currency,
-                                                  rate=round(convertion_data['exchange_rate'],3),
-                                                  converted_amount=convertion_data['converted_amount'])
+                                                  rate=round(convertion_data["exchange_rate"],3),
+                                                  converted_amount=convertion_data["converted_amount"])
         return exchange_response
     except HTTPException:
         raise
