@@ -17,6 +17,9 @@ cd fastapi-peer2peer-payments
 ```sh
 python --version
 ```
+
+## Create venv and install required libraries
+
 * create venv for the project
 ```sh
 python -m venv .venv
@@ -40,3 +43,7 @@ pip install -r app/requirements.txt
 ```sh
 pip install -r app/test-requirements.txt
 ```
+
+## initialize .env file
+* Copy .env.example or .env.devcontainer.example from app/config/ to app/ and name it .env
+* Make sure it is has the configuraiton that you require.
