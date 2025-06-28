@@ -30,7 +30,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title=config_data["application"].get("title","FastAPI Peer to Peer Application"),
               description= config_data["application"].get("description","FastAPI Peer to Peer Application"),
               summary=config_data["application"].get("summary","FastAPI Peer to Peer Application"),
-              version=config_data["application"].get("version","0.0.0")
+              version=config_data["application"].get("version","1.0.0")
               )
 
 app.include_router(router=UserRouter, tags=["Users"])
