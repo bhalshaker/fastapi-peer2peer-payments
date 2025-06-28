@@ -3,9 +3,7 @@ from contextlib import asynccontextmanager
 import json
 from fastapi import FastAPI, Request,status
 from fastapi.responses import JSONResponse
-from sqlalchemy.exc import OperationalError
 from database import engine
-from sqlalchemy.exc import SQLAlchemyError
 import logging
 import socket
 from routes import (UserRouter,
