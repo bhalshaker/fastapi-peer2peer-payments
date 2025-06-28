@@ -4,7 +4,6 @@
 A simple peer-to-peer payment system developed with FastAPI that allows users to send money to each other. The application supports user registration and login with JWT-based authentication, enabling secure access to user-specific features. Users can view their account balance, transaction history, and send money to other users, including automatic currency conversion with real-time exchange rates and a processing fee. Admin users have additional privileges to view the transaction history of any selected user. All endpoints enforce strict validation and authorization, ensuring only authenticated users can access sensitive operations. The simple system demonistrates the developer ability to design a fastapi webservices which provides clear error responses for invalid requests, insufficient permissions, or missing data, and maintains robust handling of user and transaction records.
 
 ## Getting started
-* [Install and configure uv](docs/howto/install_configure_uv.md)
 * [Install PostgreSQL on docker/podman](docs/howto/install_postgresql_on_container.md)
 * [Clone Project and setup enviroment variables](docs/howto/clone_project_configure_env.md)
 * [Start the application](docs/howto/start_the_applicaiton.md)
@@ -62,7 +61,7 @@ This application has a simple data model:
 
 | 📦 Language/Library/Component | 🧠 Justification|
 |----------------------------|--------------|
-| **Python 3.11**            | To make sure that python run time supports all choosen libraries in this project|
+| **Python 3.12**            | To make sure that python run time supports all choosen libraries in this project|
 | **FastAPI**  | Web framework for building APIs|
 | **Asyncpg**  | Python driver library to connect to PostgreSQL Database it is faster than psycopg and does not require installation for postgresql tools on the system as it is capable of running by it is own|
 | **SQLAlchemy** | Python wide known ORM library and some libraries such as SQLModel are built on top of it |
@@ -72,6 +71,11 @@ This application has a simple data model:
 | **python-dotenv** | load external .env file|
 | **pydantic** | This library is for Json Body schemas using it would make validating json body and query parameters much easier|
 |**httpx**| To make async http requests to rate exchange API |
+| **python-multipart** | For handling form data and file uploads in FastAPI |
+| **email-validator** | Provides email validation for Pydantic models |
+| **python-jose** | Used for JWT token encryption and decryption with additional security features |
+| **typing-extensions** | Provides additional typing hints and annotations for Python |
+| **ujson** | Ultra-fast JSON encoder and decoder for improved performance |
 
 
 
@@ -80,7 +84,6 @@ This application has a simple data model:
 |----------------------------|--------------|
 | **Pytest** | Framework library to test the application|
 | **pytest-html** | Generate PyTest results in HTML file|
-| **testcontainers** | To run ephermal postgresql servers while running pytests (This optional only when Docker/Podman configured correctly)|
 | **aiosqlite**| To run SQLite as a test engine when TestContainers fails during running the test|
 
 ## Attributions
