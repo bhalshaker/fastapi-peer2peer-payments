@@ -4,23 +4,23 @@
 
 Docker
 ```sh
-docker pull docker.io/library/postgres:17.5-alpine
+docker pull docker.io/library/postgres:15-alpine
 ```
 Podman
 ```sh
-podman pull docker.io/library/postgres:17.5-alpine
+podman pull docker.io/library/postgres:15-alpine
 ```
 
 ## Create postgresql instant based on the downloaded image
 
 Docker
 ```sh
-docker run -d --name peer2peerpayment -p 5432:5432 -e POSTGRES_PASSWORD=postgres postgres:17.5-alpine
+docker run -d --name peer2peerpayment -p 5432:5432 -e POSTGRES_PASSWORD=postgres postgres:15-alpine
 ```
 
 Podman
 ```sh
-podman run -d --name peer2peerpayment -p 5432:5432 -e POSTGRES_PASSWORD=postgres postgres:17.5-alpine
+podman run -d --name peer2peerpayment -p 5432:5432 -e POSTGRES_PASSWORD=postgres postgres:15-alpine
 ```
 
 ## Stop the container
