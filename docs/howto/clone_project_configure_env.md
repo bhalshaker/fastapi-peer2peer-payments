@@ -13,30 +13,37 @@ open project folder
 cd fastapi-peer2peer-payments
 ```
 
-## Install and initilize UV in Windows
-
-* Make sure python 3.11 is installed
+* Make sure python 3.12 is installed
 ```sh
 python --version
 ```
-* Install uv
+
+## Create venv and install required libraries
+
+* create venv for the project
 ```sh
-pip install uv
+python -m venv .venv
 ```
 
-Inside the project initialize uv for production/development
-* Linux/Unix/macOS
+* activate venv in Windows
 ```sh
-unset UV_VENV
-UV_VENV=.venv
-uv pip 
+.venv/Script/activate
 ```
-* Inside the the project intialize uv for testing environment
+* activate venc in Linux/MacOS
+```sh
+source .venv/bin/activate
+```
+* install required libraries for production
+```sh
+pip install -r app/requirements.txt
+```
 
-## Install and initilize UV in Linux/macOS/Unix
+* install required libraries for testing
 
+```sh
+pip install -r app/test-requirements.txt
+```
 
-
-## Use .devcontainers (Recommended)
-
-### Prerequesits
+## initialize .env file
+* Copy .env.example or .env.devcontainer.example from app/config/ to app/ and name it .env
+* Make sure it is has the configuraiton that you require.

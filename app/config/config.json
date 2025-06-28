@@ -4,6 +4,6 @@
         "title":"Peer to Peer Payments Application",
         "summary":"An application that allows users to make peer-to-peer payments.",
         "description":"A simple peer-to-peer payment system developed with FastAPI that allows users to send money to each other.The application supports user registration and login with JWT-based authentication, enabling secure access to user-specific features. Users can view their account balance, transaction history, and send money to other users, including automatic currency conversion with real-time exchange rates and a processing fee. Admin users have additional privileges to view the transaction history of any selected user. All endpoints enforce strict validation and authorization, ensuring only authenticated users can access sensitive operations. The simple system demonistrates the developer ability to design a fastapi webservices which provides clear error responses for invalid requests, insufficient permissions, or missing data, and maintains robust handling of user and transaction records.",
-        "version":"0.0.1"
+        "version":"1.0.0"
     }
 }
